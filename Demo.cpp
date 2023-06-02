@@ -42,4 +42,4 @@ int main() {
     std::cout << "Size of container after removing an element: " << container.size() << std::endl;
 
     return 0;
-};
+}
