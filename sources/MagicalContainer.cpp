@@ -19,17 +19,17 @@ bool isPrime(int num) {
 }
 
 void MagicalContainer::addElement(int element) {
-  elements.push_back(element);
   sortedElements.push_back(element);
   std::sort(sortedElements.begin(), sortedElements.end());
 }
 
 void MagicalContainer::removeElement(int element) {
-  elements.erase(std::remove(elements.begin(), elements.end(), element),
-                 elements.end());
+  sortedElements.erase(
+      std::remove(sortedElements.begin(), sortedElements.end(), element),
+      sortedElements.end());
 }
 
-int MagicalContainer::size() const { return elements.size(); }
+int MagicalContainer::size() const { return sortedElements.size(); }
 
 // AscendingIterator
 MagicalContainer::AscendingIterator::AscendingIterator(
@@ -44,42 +44,35 @@ MagicalContainer::AscendingIterator::AscendingIterator(MagicalContainer &cont,
 
 MagicalContainer::AscendingIterator &
 MagicalContainer::AscendingIterator::operator=(const AscendingIterator &other) {
-  if (this != &other) {
-    container = other.container;
-    currentIndex = other.currentIndex;
-  }
+
   return *this;
 }
 
 bool MagicalContainer::AscendingIterator::operator==(
     const AscendingIterator &other) const {
-  return currentIndex == other.currentIndex;
+  return false;
 }
 
 bool MagicalContainer::AscendingIterator::operator!=(
     const AscendingIterator &other) const {
-  return !(*this == other);
+  return false;
 }
 
 bool MagicalContainer::AscendingIterator::operator>(
     const AscendingIterator &other) const {
-  return container.sortedElements[currentIndex] >
-         container.sortedElements[other.currentIndex];
+  return false;
 }
 
 bool MagicalContainer::AscendingIterator::operator<(
     const AscendingIterator &other) const {
-  return container.sortedElements[currentIndex] <
-         container.sortedElements[other.currentIndex];
+  return false;
 }
 
-int MagicalContainer::AscendingIterator::operator*() const {
-  return container.sortedElements[currentIndex];
-}
+int MagicalContainer::AscendingIterator::operator*() const { return 0; }
 
 MagicalContainer::AscendingIterator &
 MagicalContainer::AscendingIterator::operator++() {
-  ++currentIndex;
+
   return *this;
 }
 
@@ -108,75 +101,37 @@ MagicalContainer::SideCrossIterator::SideCrossIterator(MagicalContainer &cont,
 
 MagicalContainer::SideCrossIterator &
 MagicalContainer::SideCrossIterator::operator=(const SideCrossIterator &other) {
-  if (this != &other) {
-    container = other.container;
-    currentIndex = other.currentIndex;
-    reverse = other.reverse;
-  }
+
   return *this;
 }
 
 bool MagicalContainer::SideCrossIterator::operator==(
     const SideCrossIterator &other) const {
-  return currentIndex == other.currentIndex && reverse == other.reverse;
+  return false;
 }
 
 bool MagicalContainer::SideCrossIterator::operator!=(
     const SideCrossIterator &other) const {
-  return !(*this == other);
+  return false;
 }
 
 bool MagicalContainer::SideCrossIterator::operator>(
     const SideCrossIterator &other) const {
-  if (reverse) {
-    return container.sortedElements[currentIndex] >
-           container.sortedElements[(unsigned long)container.size() -
-                                    other.currentIndex - 1];
-  } else {
-    return container.sortedElements[currentIndex] >
-           container.sortedElements[other.currentIndex];
-  }
+  return false;
 }
 
 bool MagicalContainer::SideCrossIterator::operator<(
     const SideCrossIterator &other) const {
-  if (reverse) {
-    return container.sortedElements[currentIndex] <
-           container.sortedElements[(unsigned long)container.size() -
-                                    other.currentIndex - 1];
-  } else {
-    return container.sortedElements[currentIndex] <
-           container.sortedElements[other.currentIndex];
-  }
+  return false;
 }
 
-int MagicalContainer::SideCrossIterator::operator*() const {
-  if (reverse)
-    return container
-        .sortedElements[(unsigned long)container.size() - currentIndex - 1];
-  else
-    return container.sortedElements[currentIndex];
-}
+int MagicalContainer::SideCrossIterator::operator*() const { return false; }
 
 MagicalContainer::SideCrossIterator &
 MagicalContainer::SideCrossIterator::operator++() {
-  if (reverse) {
-    if (currentIndex != (unsigned long)container.size() / 2)
-      ++currentIndex;
-    else {
-      if (container.size() % 2 == 0) {
-        currentIndex = (unsigned long)container.size();
-      } else {
-        currentIndex = (unsigned long)container.size() - 1;
-        reverse = !reverse;
-        return *this;
-      }
-    }
-  }
-  reverse = !reverse;
+
   return *this;
 }
-
 
 MagicalContainer::SideCrossIterator
 MagicalContainer::SideCrossIterator::begin() const {
@@ -187,7 +142,6 @@ MagicalContainer::SideCrossIterator
 MagicalContainer::SideCrossIterator::end() const {
   return SideCrossIterator(container, ((unsigned long)container.size() / 2),
                            reverse);
-  
 }
 
 // PrimeIterator
@@ -207,44 +161,34 @@ MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer &cont,
 
 MagicalContainer::PrimeIterator &
 MagicalContainer::PrimeIterator::operator=(const PrimeIterator &other) {
-  if (this != &other) {
-    currentIndex = other.currentIndex;
-  }
+
   return *this;
 }
 
 bool MagicalContainer::PrimeIterator::operator==(
     const PrimeIterator &other) const {
-  return currentIndex == other.currentIndex;
+  return false;
 }
 
 bool MagicalContainer::PrimeIterator::operator!=(
     const PrimeIterator &other) const {
-  return !(*this == other);
+  return false;
 }
 
 bool MagicalContainer::PrimeIterator::operator>(
     const PrimeIterator &other) const {
-  return container.sortedElements[currentIndex] >
-         container.sortedElements[other.currentIndex];
+  return false;
 }
 
 bool MagicalContainer::PrimeIterator::operator<(
     const PrimeIterator &other) const {
-  return container.sortedElements[currentIndex] <
-         container.sortedElements[other.currentIndex];
+  return false;
 }
 
-int MagicalContainer::PrimeIterator::operator*() const {
-  return container.sortedElements[currentIndex];
-}
+int MagicalContainer::PrimeIterator::operator*() const { return 0; }
 
 MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++() {
-  ++currentIndex;
-  while (currentIndex < (unsigned long)container.size() &&
-         !isPrime(container.sortedElements[currentIndex])) {
-    ++currentIndex;
-  }
+
   return *this;
 }
 
